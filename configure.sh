@@ -25,7 +25,7 @@ sudo rm -f /etc/nginx/conf.d/default.conf
 sudo bash -c "cat > /etc/nginx/conf.d/react-app.conf << EOL
 server {
     listen 80;
-    server_name ec2-15-236-206-59.eu-west-3.compute.amazonaws.com/;
+    server_name ec2-13-38-62-224.eu-west-3.compute.amazonaws.com;
 
     location / {
         root /home/ec2-user/centrale-nantes-react-app/build;
