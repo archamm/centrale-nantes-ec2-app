@@ -28,7 +28,7 @@ server {
     server_name ec2-15-236-206-59.eu-west-3.compute.amazonaws.com;
 
     location / {
-        root /home/ec2-user/centrale-nantes-react-app/build;
+        root /home/ec2-user/centrale-nantes-ec2-app/build;
         try_files $uri $uri/ /index.html;
     }
 }
