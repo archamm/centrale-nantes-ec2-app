@@ -29,7 +29,7 @@ server {
 
     location / {
         root /home/ec2-user/centrale-nantes-ec2-app/build;
-        try_files $uri =404;
+        try_files $uri $uri/ =404;
     }
 }
 EOL"
