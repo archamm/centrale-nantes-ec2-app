@@ -26,9 +26,9 @@ sudo bash -c "cat > /etc/nginx/conf.d/react-app.conf << EOL
 server {
     listen 80;
     server_name ec2-15-236-206-59.eu-west-3.compute.amazonaws.com;
+    root /home/ec2-user/centrale-nantes-ec2-app/build;
 
     location / {
-        root /home/ec2-user/centrale-nantes-ec2-app/build;
         try_files $uri $uri/ /index.html =404;
         add_header Cache-Control "no-store";
     }
