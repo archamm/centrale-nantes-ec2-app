@@ -6,8 +6,8 @@ sudo yum update -y
 # Install Node.js
 sudo yum install -y nodejs
 
-# Install Nginx
-sudo yum install -y nginx
+# Install Apache (httpd)
+sudo yum install -y httpd
 
 # Install Git
 sudo yum install git -y
@@ -18,33 +18,35 @@ npm install
 # Build your React app
 npm run build
 
-# Remove the default Nginx configuration
-sudo rm -f /etc/nginx/conf.d/default.conf
+# Configure Apache to serve the React app
+sudo bash -c "cat > /etc/httpd/conf.d/react-app.conf << EOL
+<VirtualHost *:80>
+    DocumentRoot /home/ec2-user/centrale-nantes-ec2-app/build
+    ServerName ec2-15-236-206-59.eu-west-3.compute.amazonaws.com
 
-# Create a new configuration file
-sudo bash -c "cat > /etc/nginx/conf.d/react-app.conf << EOL
-server {
-    listen 80;
-    server_name ec2-15-236-206-59.eu-west-3.compute.amazonaws.com;
-    root /home/ec2-user/centrale-nantes-ec2-app/build;
+    <Directory /home/ec2-user/centrale-nantes-ec2-app/build>
+        AllowOverride None
+        Require all granted
+        Options -Indexes
 
-    location / {
-        try_files $uri $uri/ /index.html =404;
-        add_header Cache-Control "no-store";
-    }
-}
+        RewriteEngine On
+        RewriteBase /
+        RewriteRule ^index\.html$ - [L]
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteCond %{REQUEST_FILENAME} !-d
+        RewriteRule . /index.html [L]
+    </Directory>
+
+    ErrorLog /var/log/httpd/react-app_error.log
+    CustomLog /var/log/httpd/react-app_access.log combined
+</VirtualHost>
 EOL"
 
-# Configure Nginx to serve the React app
-if ! grep -q "server_names_hash_bucket_size" /etc/nginx/nginx.conf; then
-  sudo sed -i '/http {/a \    server_names_hash_bucket_size 128;' /etc/nginx/nginx.conf
-fi
+# Start Apache if it's not running
+sudo systemctl start httpd
 
-# Start Nginx if it's not running
-sudo systemctl start nginx
+# Restart Apache if it's already running
+sudo systemctl restart httpd
 
-# Restart Nginx if it's already running
-sudo systemctl restart nginx
-
-# Enable Nginx to start at boot
-sudo systemctl enable nginx
+# Enable Apache to start at boot
+sudo systemctl enable httpd
