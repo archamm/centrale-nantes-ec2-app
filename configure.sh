@@ -1,16 +1,13 @@
 #!/bin/bash
 
-# Update the package list
-sudo yum update -y
+#Give correct permission to folders
+chmod o+x /home/ec2-user/
 
 # Install Node.js
 sudo yum install -y nodejs
 
 # Install Apache (httpd)
 sudo yum install -y httpd
-
-# Install Git
-sudo yum install git -y
 
 # Install dependencies
 npm install
@@ -25,7 +22,7 @@ sudo bash -c "cat > /etc/httpd/conf.d/react-app.conf << EOL
     # Set the document root to the build output directory of your React app
     DocumentRoot /home/ec2-user/centrale-nantes-ec2-app/build
     # Set the server name to the public DNS of your EC2 instance
-    ServerName ec2-35-180-139-110.eu-west-3.compute.amazonaws.com
+    ServerName ec2-13-38-89-246.eu-west-3.compute.amazonaws.com
 
     # Configure the directory containing your React app
     <Directory /home/ec2-user/centrale-nantes-ec2-app/build>
