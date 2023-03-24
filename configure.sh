@@ -25,7 +25,7 @@ sudo bash -c "cat > /etc/httpd/conf.d/react-app.conf << EOL
     # Set the document root to the build output directory of your React app
     DocumentRoot /home/ec2-user/centrale-nantes-ec2-app/build
     # Set the server name to the public DNS of your EC2 instance
-    ServerName ec2-15-236-206-59.eu-west-3.compute.amazonaws.com
+    ServerName ec2-35-180-139-110.eu-west-3.compute.amazonaws.com
 
     # Configure the directory containing your React app
     <Directory /home/ec2-user/centrale-nantes-ec2-app/build>
